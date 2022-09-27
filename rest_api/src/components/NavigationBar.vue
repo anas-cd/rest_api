@@ -1,33 +1,31 @@
 <template>
     <header class="header">
-        <h1>Where in the world?</h1>
-        <button>
-            <img src="@/assets/moon.svg" alt="theme toggle">
-            Dark Mode
-        </button>
+        <div class="wl flexer_row">
+            <h1>Where in the world?</h1>
+            <button>
+                <img src="@/assets/moon.svg" alt="theme toggle" />
+                Dark Mode
+            </button>
+        </div>
     </header>
 </template>
 
 <script>
-    export default {
-      name: "Navigation",
-    };
+export default {
+    name: 'NavigationBar',
+};
 </script>
 
 <style scoped lang="scss">
 .header {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     align-items: center;
-    justify-content: space-around;
     background-color: $white;
-    box-shadow: 1px 0px 7px 1px gray;
-    margin-bottom: 1rem;
-    h1 {
+    box-shadow: 1px 0px 7px 1px #80808025;
+    margin-bottom: 3rem;
 
-    }
-
-    & > button {
+    button {
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
