@@ -2,7 +2,7 @@
     <header class="header">
         <div class="wl flexer_row">
             <h1>Where in the world?</h1>
-            <button>
+            <button id="themeSwitch">
                 <img src="@/assets/moon.svg" alt="theme toggle" />
                 Dark Mode
             </button>
@@ -21,9 +21,10 @@ export default {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    background-color: $white;
-    box-shadow: 1px 0px 7px 1px #80808025;
+    background-color: var(--element-bg);
+    box-shadow: 1px 0px 7px 1px var(--shadow);
     margin-bottom: 3rem;
+    transition-duration: 0.2s;
 
     button {
         display: flex;
@@ -33,12 +34,15 @@ export default {
         font-weight: 600;
         background-color: transparent;
         border: none;
+        color: var(--text-color);
+        transition-duration: 0.2s;
 
         &:hover {
             cursor: pointer;
         }
         img {
             margin-right: 0.5rem;
+            filter: var(--icon-color);
         }
     }
 }
