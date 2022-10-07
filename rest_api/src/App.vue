@@ -1,17 +1,17 @@
 <template>
     <NavigationBar />
-    <div class="wl">
-        <router-view />
-    </div>
+    <suspense>
+        <template #default>
+            <div class="wl">
+                <router-view />
+            </div>
+        </template>
+        <template #fallback>Loading..</template>
+    </suspense>
 </template>
 
-<script>
+<script setup>
 import NavigationBar from './components/NavigationBar.vue';
-export default {
-    components: {
-        NavigationBar,
-    },
-};
 </script>
 
 <style lang="scss">

@@ -1,26 +1,47 @@
 <template>
-    <router-link to="/test">
+    <router-link :to="countryCode">
         <div class="card">
-            <img
-                src="@/assets/flags/Flag_of_Germany.png"
-                alt="Germany flag, top black, middle red, bottom yellow"
-            />
+            <img :src="flag" :alt="flagAlt" />
             <div class="countryInfo">
-                <h2>Germany</h2>
-                <p>Population:<span>&nbsp;81,770,900</span></p>
+                <h2>{{ countryName }}</h2>
+                <p>
+                    Population:<span>&nbsp;{{ population }}</span>
+                </p>
 
-                <p>Region:<span>&nbsp;Europe</span></p>
+                <p>
+                    Region:<span>&nbsp;{{ region }}</span>
+                </p>
 
-                <p>Capital:<span>&nbsp;Berlin</span></p>
+                <p>
+                    Capital:<span v-for="capital in capitals" :key="capital"
+                        >&nbsp;{{ capital }}</span
+                    >
+                </p>
             </div>
         </div>
     </router-link>
 </template>
 
-<script>
-export default {
-    name: 'ContryCard',
-};
+<script setup>
+// imports
+import { ref } from 'vue';
+
+// data
+// eslint-disable-next-line no-undef
+const props = defineProps({
+    countryData: {
+        type: Object,
+        required: true,
+    },
+});
+
+const flag = ref(props.countryData.flags.png);
+const flagAlt = ref('flag of ' + props.countryData.name.common);
+const countryName = ref(props.countryData.name.common);
+const population = ref(props.countryData.population);
+const region = ref(props.countryData.region);
+const capitals = ref(props.countryData.capital);
+const countryCode = ref(props.countryData.cca3);
 </script>
 
 <style scoped lang="scss">
@@ -48,13 +69,14 @@ a {
         margin: 1rem 0rem;
 
         img {
-            width: auto;
-            height: 12.5rem;
+            width: 100% !important;
+            height: 12.5rem !important;
         }
     }
 
     img {
-        width: 100%;
+        width: 250px;
+        height: 150px;
     }
 
     .countryInfo {

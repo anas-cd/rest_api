@@ -1,25 +1,22 @@
 <template>
     <SearchFilter />
     <div class="CListContainer">
-        <ContryCard />
-        <ContryCard />
-        <ContryCard />
-        <ContryCard />
+        <ContryCard
+            v-for="country in countriesData"
+            :key="country.ccn3"
+            :countryData="country"
+        />
     </div>
 </template>
 
-<script>
+<script setup>
 import SearchFilter from '@/components/SearchFilter.vue';
 import ContryCard from '@/components/ContryCard.vue';
-// @ is an alias to /src
+import CountriesApi from '@/services/CountriesApi';
+import { ref } from 'vue';
 
-export default {
-    name: 'HomeView',
-    components: {
-        SearchFilter,
-        ContryCard,
-    },
-};
+// data
+const countriesData = ref(await CountriesApi.getAll());
 </script>
 
 <style scoped lang="scss">
