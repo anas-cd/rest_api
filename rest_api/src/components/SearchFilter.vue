@@ -2,14 +2,26 @@
     <div>
         <div class="searchFilter" role="search">
             <!-- search box form -->
-            <form action="#" class="searcher">
-                <img src="@/assets/search.svg" alt="search box" />
+            <form action="#" class="searcher" @submit.prevent="countrySearch">
+                <img
+                    src="@/assets/search.svg"
+                    alt="search box"
+                    @click.prevent="countrySearch"
+                />
                 <!-- <label for="search"></label> -->
                 <input
                     id="seachBox"
                     type="text"
                     placeholder="Search for country..."
+                    v-model="searchInput"
                 />
+                <button
+                    type="button"
+                    v-if="searchInput !== ''"
+                    @click="countrySearch('')"
+                >
+                    reset
+                </button>
             </form>
             <!-- filter region form -->
             <div class="dropdown-center">
@@ -19,31 +31,60 @@
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                 >
-                    Filter by region
+                    {{ filterInput }}
                 </button>
                 <ul class="dropdown-menu">
+                    <li v-if="filterInput !== 'Filter by region'">
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            @click="countryFilter('Filter by region')"
+                        >
+                            View all
+                        </button>
+                    </li>
                     <li>
-                        <button class="dropdown-item" type="button">
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            @click="countryFilter('africa')"
+                        >
                             Africa
                         </button>
                     </li>
                     <li>
-                        <button class="dropdown-item" type="button">
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            @click="countryFilter('america')"
+                        >
                             America
                         </button>
                     </li>
                     <li>
-                        <button class="dropdown-item" type="button">
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            @click="countryFilter('asia')"
+                        >
                             Asia
                         </button>
                     </li>
                     <li>
-                        <button class="dropdown-item" type="button">
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            @click="countryFilter('europe')"
+                        >
                             Europe
                         </button>
                     </li>
                     <li>
-                        <button class="dropdown-item" type="button">
+                        <button
+                            class="dropdown-item"
+                            type="button"
+                            @click="countryFilter('oceania')"
+                        >
                             Oceania
                         </button>
                     </li>
@@ -53,10 +94,35 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'SearchFilter',
-};
+<script setup>
+import { ref, defineEmits } from 'vue';
+
+const emit = defineEmits(['searchFor', 'regionOf']);
+
+// searching functionality
+const searchInput = ref('');
+function countrySearch(config) {
+    if (config !== '' && searchInput.value !== '') {
+        emit('searchFor', searchInput.value);
+    } else {
+        if (searchInput.value !== '') {
+            searchInput.value = '';
+            emit('searchFor', null);
+        } else alert('please type the country you want first');
+    }
+}
+
+// filtering functionlity
+const filterInput = ref('Filter by region');
+function countryFilter(region) {
+    if (region !== 'Filter by region') {
+        filterInput.value = region;
+        emit('regionOf', filterInput.value);
+    } else {
+        filterInput.value = 'Filter by region';
+        emit('regionOf', null);
+    }
+}
 </script>
 
 <style scoped lang="scss">
@@ -87,6 +153,9 @@ div.searchFilter {
         transition-duration: 0.2s;
         & > img {
             filter: var(--icon-color);
+            &:hover {
+                cursor: pointer;
+            }
         }
         & > input {
             border: none;
@@ -102,6 +171,13 @@ div.searchFilter {
             &::placeholder {
                 font-weight: 600;
             }
+        }
+        & > button {
+            border: none;
+            background-color: var(--body-bg);
+            border-radius: 0.3rem;
+            color: var(--text-color);
+            padding: 0.5rem;
         }
     }
 

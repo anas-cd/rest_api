@@ -1,5 +1,5 @@
 <template>
-    <SearchFilter />
+    <SearchFilter @searchFor="countrySearch" @regionOf="regionFilter" />
     <div class="CListContainer">
         <ContryCard
             v-for="country in countriesData"
@@ -17,6 +17,20 @@ import { ref } from 'vue';
 
 // data
 const countriesData = ref(await CountriesApi.getAll());
+
+// searching functionality
+async function countrySearch(country) {
+    if (country !== null) {
+        countriesData.value = await CountriesApi.getCountryByName(country);
+    } else countriesData.value = await CountriesApi.getAll();
+}
+
+// filtering functionality
+async function regionFilter(region) {
+    if (region !== null) {
+        countriesData.value = await CountriesApi.getContriesByRegion(region);
+    } else countriesData.value = await CountriesApi.getAll();
+}
 </script>
 
 <style scoped lang="scss">

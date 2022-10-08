@@ -80,11 +80,13 @@ import { useRoute } from 'vue-router';
 import CountriesApi from '@/services/CountriesApi';
 
 const route = useRoute();
+
+// data
 const countryData = ref(await CountriesApi.getCountryByCode(route.params.code));
 const flag = ref(countryData.value[0].flags.png);
 const name = ref(countryData.value[0].name.common);
 const nativeName = ref(countryData.value[0].name.nativeName);
-const population = ref(countryData.value[0].population);
+const population = ref(countryData.value[0].population.toLocaleString('en-US'));
 const region = ref(countryData.value[0].region);
 const subregion = ref(countryData.value[0].subregion);
 const capitals = ref(countryData.value[0].capital);
@@ -93,12 +95,13 @@ const currencies = ref(countryData.value[0].currencies);
 const languages = ref(countryData.value[0].languages);
 const borders = ref(countryData.value[0].borders);
 
+// watching only for 'route.params.code', this could be done with 'watch' instead of 'watchEffect' but this way just in case there are some v-models bindings in the future where some data maybe dependent on other it will still work as it sould.
 watchEffect(async () => {
     countryData.value = await CountriesApi.getCountryByCode(route.params.code);
     flag.value = countryData.value[0].flags.png;
     name.value = countryData.value[0].name.common;
     nativeName.value = countryData.value[0].name.nativeName;
-    population.value = countryData.value[0].population;
+    population.value = countryData.value[0].population.toLocaleString('en-US');
     region.value = countryData.value[0].region;
     subregion.value = countryData.value[0].subregion;
     capitals.value = countryData.value[0].capital;
@@ -209,7 +212,7 @@ watchEffect(async () => {
             }
 
             & > a {
-                margin-left: 0.7rem;
+                margin: 0.5rem;
                 text-decoration: none;
                 font-weight: 400;
                 color: var(--text-color);
@@ -219,10 +222,9 @@ watchEffect(async () => {
                 padding: 0.2rem 1rem;
                 transition-duration: 0.2s;
 
-                &:first-of-type {
-                    @media #{$mq-600-down} {
-                        margin-left: 0px;
-                    }
+                @media #{$mq-600-down} {
+                    margin-left: 0px;
+                    margin-right: 1rem;
                 }
             }
         }
