@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import CountryView from '../views/CountryView.vue';
+import NotFound from '../views/NotFound.vue';
 
 const routes = [
     {
@@ -12,6 +13,11 @@ const routes = [
         path: '/:code',
         name: 'country',
         component: CountryView,
+    },
+    {
+        path: '/notfound',
+        name: 'NotFound',
+        component: NotFound,
     },
 ];
 

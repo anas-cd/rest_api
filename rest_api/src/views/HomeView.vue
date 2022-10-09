@@ -1,5 +1,9 @@
 <template>
-    <SearchFilter @searchFor="countrySearch" @regionOf="regionFilter" />
+    <SearchFilter
+        @searchFor="countrySearch"
+        @regionOf="regionFilter"
+        :err="searchErr"
+    />
     <div class="CListContainer">
         <ContryCard
             v-for="country in countriesData"
@@ -14,14 +18,30 @@ import SearchFilter from '@/components/SearchFilter.vue';
 import ContryCard from '@/components/ContryCard.vue';
 import CountriesApi from '@/services/CountriesApi';
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 
+const store = useStore();
 // data
 const countriesData = ref(await CountriesApi.getAll());
-
+const searchErr = ref('');
+store.dispatch('setCountryCodes', countriesData.value);
 // searching functionality
 async function countrySearch(country) {
     if (country !== null) {
-        countriesData.value = await CountriesApi.getCountryByName(country);
+        countriesData.value = await CountriesApi.getCountryByName(
+            country
+        ).catch((err) => {
+            console.log('error catch entered');
+            if (err.response.status == 404) {
+                setTimeout(() => {
+                    searchErr.value = 'no match was found, please try again';
+                }, 10);
+                searchErr.value = '';
+            }
+            return async () => {
+                await CountriesApi.getAll();
+            };
+        });
     } else countriesData.value = await CountriesApi.getAll();
 }
 

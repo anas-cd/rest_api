@@ -11,9 +11,16 @@ const apiClient = axios.create({
 
 export default {
     getAll() {
-        return apiClient.get('all').then((res) => {
-            return res.data;
-        });
+        if (localStorage.getItem('allCountries') === null) {
+            return apiClient.get('all').then((res) => {
+                // saving to local storage
+                localStorage.setItem('allCountries', JSON.stringify(res.data));
+                return res.data;
+            });
+        } else {
+            let data = JSON.parse(localStorage.getItem('allCountries'));
+            return data;
+        }
     },
     getCountryByCode(code) {
         return apiClient.get('alpha/' + code).then((res) => {
@@ -26,8 +33,11 @@ export default {
         });
     },
     getContriesByRegion(region) {
-        return apiClient.get('region/' + region).then((res) => {
-            return res.data;
-        });
+        if (localStorage.getItem(region) === null) {
+            return apiClient.get('region/' + region).then((res) => {
+                localStorage.setItem(region, JSON.stringify(res.data));
+                return res.data;
+            });
+        } else return JSON.parse(localStorage.getItem(region));
     },
 };

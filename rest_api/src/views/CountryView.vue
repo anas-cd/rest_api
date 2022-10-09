@@ -61,13 +61,13 @@
                     </p>
                 </div>
             </div>
-            <div class="borderCountries">
+            <div class="borderCountries" v-if="borders">
                 <p>Border Countries:</p>
                 <RouterLink
-                    v-for="boundry in borders"
-                    :to="boundry"
-                    :key="boundry"
-                    >{{ boundry }}</RouterLink
+                    v-for="border in borders"
+                    :to="border"
+                    :key="border"
+                    >{{ borderCountryName(border) }}</RouterLink
                 >
             </div>
         </div>
@@ -75,27 +75,50 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, watch, watchEffect } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import CountriesApi from '@/services/CountriesApi';
+import { useStore } from 'vuex';
 
 const route = useRoute();
-
+const router = useRouter();
+const store = useStore();
 // data
-const countryData = ref(await CountriesApi.getCountryByCode(route.params.code));
-const flag = ref(countryData.value[0].flags.png);
-const name = ref(countryData.value[0].name.common);
-const nativeName = ref(countryData.value[0].name.nativeName);
-const population = ref(countryData.value[0].population.toLocaleString('en-US'));
-const region = ref(countryData.value[0].region);
-const subregion = ref(countryData.value[0].subregion);
-const capitals = ref(countryData.value[0].capital);
-const tld = ref(countryData.value[0].tld);
-const currencies = ref(countryData.value[0].currencies);
-const languages = ref(countryData.value[0].languages);
-const borders = ref(countryData.value[0].borders);
+const countryData = ref(
+    await CountriesApi.getCountryByCode(route.params.code).catch(() => {
+        return null;
+    })
+);
+const flag = ref('');
+const name = ref('');
+const nativeName = ref('');
+const population = ref('');
+const region = ref('');
+const subregion = ref('');
+const capitals = ref('');
+const tld = ref('');
+const currencies = ref('');
+const languages = ref('');
+const borders = ref('');
 
-// watching only for 'route.params.code', this could be done with 'watch' instead of 'watchEffect' but this way just in case there are some v-models bindings in the future where some data maybe dependent on other it will still work as it sould.
+if (countryData.value === null) {
+    router.push({
+        path: '/notfound',
+    });
+} else {
+    flag.value = countryData.value[0].flags.png;
+    name.value = countryData.value[0].name.common;
+    nativeName.value = countryData.value[0].name.nativeName;
+    population.value = countryData.value[0].population.toLocaleString('en-US');
+    region.value = countryData.value[0].region;
+    subregion.value = countryData.value[0].subregion;
+    capitals.value = countryData.value[0].capital;
+    tld.value = countryData.value[0].tld;
+    currencies.value = countryData.value[0].currencies;
+    languages.value = countryData.value[0].languages;
+    borders.value = countryData.value[0].borders;
+}
+
 watchEffect(async () => {
     countryData.value = await CountriesApi.getCountryByCode(route.params.code);
     flag.value = countryData.value[0].flags.png;
@@ -110,6 +133,10 @@ watchEffect(async () => {
     languages.value = countryData.value[0].languages;
     borders.value = countryData.value[0].borders;
 });
+
+function borderCountryName(code) {
+    return store.getters.getCountryName(code);
+}
 </script>
 
 <style scoped lang="scss">

@@ -1,6 +1,8 @@
 <template>
     <div>
         <div class="searchFilter" role="search">
+            <!-- error messages display -->
+            <p v-if="errMsg != ''" class="errMsg">{{ errMsg }}</p>
             <!-- search box form -->
             <form action="#" class="searcher" @submit.prevent="countrySearch">
                 <img
@@ -95,26 +97,55 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, defineProps, watch } from 'vue';
 
 const emit = defineEmits(['searchFor', 'regionOf']);
+const props = defineProps(['err']);
+// general data
+const errMsg = ref('');
 
-// searching functionality
+// # searching functionality
 const searchInput = ref('');
 function countrySearch(config) {
+    // resetting filter by region
+    filterInput.value = 'Filter by region';
     if (config !== '' && searchInput.value !== '') {
         emit('searchFor', searchInput.value);
     } else {
         if (searchInput.value !== '') {
-            searchInput.value = '';
-            emit('searchFor', null);
-        } else alert('please type the country you want first');
+            resetter();
+        } else {
+            displayErr('please type the country you want to show first');
+        }
     }
 }
+// - search error messages functionality
+function displayErr(err) {
+    errMsg.value = err;
+    setTimeout(() => {
+        errMsg.value = '';
+    }, 5000);
+    resetter();
+}
+// - search bar resetting functionality
+function resetter() {
+    searchInput.value = '';
+    emit('searchFor', null);
+}
+watch(
+    () => props.err,
+    () => {
+        if (props.err != '') {
+            displayErr(props.err);
+        }
+    }
+);
 
-// filtering functionlity
+// # filtering functionlity
 const filterInput = ref('Filter by region');
 function countryFilter(region) {
+    // resetting search
+    searchInput.value = '';
     if (region !== 'Filter by region') {
         filterInput.value = region;
         emit('regionOf', filterInput.value);
@@ -210,6 +241,13 @@ div.searchFilter {
                 }
             }
         }
+    }
+
+    // error message element
+    & > .errMsg {
+        color: lightcoral;
+        position: absolute;
+        transform: translateY(-30px);
     }
 }
 </style>
