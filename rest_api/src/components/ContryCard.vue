@@ -12,7 +12,7 @@
                     Region:<span>&nbsp;{{ region }}</span>
                 </p>
 
-                <p>
+                <p v-if="capitals">
                     Capital:<span v-for="capital in capitals" :key="capital"
                         >&nbsp;{{ capital }}</span
                     >

@@ -31,7 +31,6 @@ async function countrySearch(country) {
         countriesData.value = await CountriesApi.getCountryByName(
             country
         ).catch((err) => {
-            console.log('error catch entered');
             if (err.response.status == 404) {
                 setTimeout(() => {
                     searchErr.value = 'no match was found, please try again';

@@ -11,7 +11,7 @@
                 <div class="mainCInfo">
                     <p>
                         Native Name:<span v-for="name in nativeName" :key="name"
-                            >&nbsp;{{ name.common }}</span
+                            >&nbsp;{{ name.common }} .</span
                         >
                     </p>
                     <!-- <p>
@@ -35,7 +35,7 @@
                     </p>
                     <p>
                         Capital:<span v-for="capital in capitals" :key="capital"
-                            >&nbsp;{{ capital }}</span
+                            >&nbsp;{{ capital }} .</span
                         >
                     </p>
                 </div>
@@ -51,12 +51,12 @@
                         Currencies:<span
                             v-for="currency in currencies"
                             :key="currency"
-                            >&nbsp;{{ currency.name }}</span
+                            >&nbsp;{{ currency.name }} .</span
                         >
                     </p>
                     <p>
                         Languages:<span v-for="lang in languages" :key="lang"
-                            >&nbsp;{{ lang }}</span
+                            >&nbsp;{{ lang }} .</span
                         >
                     </p>
                 </div>
@@ -75,7 +75,7 @@
 </template>
 
 <script setup>
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import CountriesApi from '@/services/CountriesApi';
 import { useStore } from 'vuex';
@@ -120,22 +120,31 @@ if (countryData.value === null) {
 }
 
 watchEffect(async () => {
-    countryData.value = await CountriesApi.getCountryByCode(route.params.code);
-    flag.value = countryData.value[0].flags.png;
-    name.value = countryData.value[0].name.common;
-    nativeName.value = countryData.value[0].name.nativeName;
-    population.value = countryData.value[0].population.toLocaleString('en-US');
-    region.value = countryData.value[0].region;
-    subregion.value = countryData.value[0].subregion;
-    capitals.value = countryData.value[0].capital;
-    tld.value = countryData.value[0].tld;
-    currencies.value = countryData.value[0].currencies;
-    languages.value = countryData.value[0].languages;
-    borders.value = countryData.value[0].borders;
+    // Why if undefined?, if route.params.code is undefined it means it was changed to go to HomeView, since the watch will detect the change in route.params asynchronously we have to account for this. (NOTE: this issue is only there when we add <Transition> tags in App.vue for some reason).
+    if (route.params.code != undefined) {
+        countryData.value = await CountriesApi.getCountryByCode(
+            route.params.code
+        );
+        flag.value = countryData.value[0].flags.png;
+        name.value = countryData.value[0].name.common;
+        nativeName.value = countryData.value[0].name.nativeName;
+        population.value =
+            countryData.value[0].population.toLocaleString('en-US');
+        region.value = countryData.value[0].region;
+        subregion.value = countryData.value[0].subregion;
+        capitals.value = countryData.value[0].capital;
+        tld.value = countryData.value[0].tld;
+        currencies.value = countryData.value[0].currencies;
+        languages.value = countryData.value[0].languages;
+        borders.value = countryData.value[0].borders;
+    }
 });
 
 function borderCountryName(code) {
-    return store.getters.getCountryName(code);
+    let names = store.getters.getCountryName(code);
+    if (names != undefined) {
+        return names;
+    } else return code;
 }
 </script>
 
