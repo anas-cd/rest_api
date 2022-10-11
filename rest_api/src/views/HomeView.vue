@@ -4,20 +4,21 @@
         @regionOf="regionFilter"
         :err="searchErr"
     />
-    <div class="CListContainer">
+
+    <TransitionGroup class="CListContainer" name="slide-fade" tag="div">
         <ContryCard
             v-for="country in countriesData"
             :key="country.ccn3"
             :countryData="country"
         />
-    </div>
+    </TransitionGroup>
 </template>
 
 <script setup>
 import SearchFilter from '@/components/SearchFilter.vue';
 import ContryCard from '@/components/ContryCard.vue';
 import CountriesApi from '@/services/CountriesApi';
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -43,6 +44,12 @@ async function countrySearch(country) {
         });
     } else countriesData.value = await CountriesApi.getAll();
 }
+onMounted(() => {
+    console.log('hello');
+});
+onUnmounted(() => {
+    console.log('good bye');
+});
 
 // filtering functionality
 async function regionFilter(region) {
@@ -57,6 +64,7 @@ async function regionFilter(region) {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+
     @media #{$mq-600-down} {
         flex-flow: column nowrap;
     }
