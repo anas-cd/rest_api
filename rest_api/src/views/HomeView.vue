@@ -5,11 +5,13 @@
         :err="searchErr"
     />
     <div class="CListContainer">
-        <ContryCard
-            v-for="country in countriesData"
-            :key="country.ccn3"
-            :countryData="country"
-        />
+        <TransitionGroup class="CListContainer" name="fade" tag="div">
+            <ContryCard
+                v-for="country in countriesData"
+                :key="country.ccn3"
+                :countryData="country"
+            />
+        </TransitionGroup>
     </div>
 </template>
 
@@ -60,5 +62,19 @@ async function regionFilter(region) {
     @media #{$mq-600-down} {
         flex-flow: column nowrap;
     }
+}
+
+.fade-enter-active {
+    // transition: all 0.3s ease-out;
+}
+
+.fade-leave-active {
+    // transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    transform: translateY(-20px);
+    opacity: 0;
 }
 </style>

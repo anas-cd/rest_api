@@ -2,7 +2,9 @@
     <div>
         <div class="searchFilter" role="search">
             <!-- error messages display -->
-            <p v-if="errMsg != ''" class="errMsg">{{ errMsg }}</p>
+            <Transition name="fade">
+                <p v-if="errMsg != ''" class="errMsg">{{ errMsg }}</p>
+            </Transition>
             <!-- search box form -->
             <form action="#" class="searcher" @submit.prevent="countrySearch">
                 <img
@@ -249,5 +251,19 @@ div.searchFilter {
         position: absolute;
         transform: translateY(-30px);
     }
+}
+
+.fade-enter-active {
+    transition: all 0.3s ease-out;
+}
+
+.fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
 }
 </style>

@@ -75,7 +75,7 @@ a {
     }
 
     img {
-        width: 250px;
+        width: 264px;
         height: 150px;
     }
 
