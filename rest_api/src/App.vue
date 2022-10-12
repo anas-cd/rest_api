@@ -2,8 +2,8 @@
     <NavigationBar />
     <RouterView v-slot="{ Component }">
         <template v-if="Component">
-            <Transition name="route" mode="out-in" appear>
-                <suspense timeout="0">
+            <Transition name="scale" mode="out-in">
+                <suspense>
                     <template #default>
                         <div class="wl">
                             <component :is="Component"></component>
@@ -28,25 +28,14 @@ import NavigationBar from './components/NavigationBar.vue';
     color: var(--text-color);
 }
 // transition styling
-// .v-enter-active,
-// .v-leave-active {
-//     transition: opacity 1s ease;
-// }
+.scale-enter-active,
+.scale-leave-active {
+    transition: all 0.5s ease;
+}
 
-// .v-enter-from,
-// .v-leave-to {
-//     opacity: 0;
-// }
-.route-enter-from {
+.scale-enter-from,
+.scale-leave-to {
     opacity: 0;
-    // transform: translateY(100px);
-}
-.route-enter-active,
-.route-leave-active {
-    transition: all 0.2s ease-out;
-}
-.route-leave-to {
-    opacity: 0;
-    // transform: translateY(100px);
+    transform: scale(0.8);
 }
 </style>

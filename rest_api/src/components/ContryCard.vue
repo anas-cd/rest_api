@@ -1,6 +1,6 @@
 <template>
     <router-link :to="countryCode">
-        <div class="card">
+        <div class="card" :key="$route.params.code">
             <img :src="flag" :alt="flagAlt" />
             <div class="countryInfo">
                 <h2>{{ countryName }}</h2>

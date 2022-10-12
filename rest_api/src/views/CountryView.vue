@@ -3,7 +3,7 @@
         <img src="@/assets/arrow-back-outline.svg" alt="go back button" />
         <button>Back</button>
     </RouterLink>
-    <div class="country">
+    <div class="country" :key="$route.params.code">
         <img :src="flag" alt="flag of {{ name }}" />
         <div class="countryDetails">
             <h2>{{ name }}</h2>
@@ -16,10 +16,10 @@
                     </p>
                     <!-- <p>
                         Native Name:<span
-                            >&nbsp;{{
+                        >&nbsp;{{
                                 countryData.name.nativeName[
-                                    Object.keys(countryData.name.nativeName)[0]
-                                        .official
+                                Object.keys(countryData.name.nativeName)[0]
+                                .official
                                 ]
                             }}</span
                         >

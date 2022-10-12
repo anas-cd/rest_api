@@ -5,13 +5,13 @@
         :err="searchErr"
     />
     <div class="CListContainer">
-        <TransitionGroup class="CListContainer" name="fade" tag="div">
-            <ContryCard
-                v-for="country in countriesData"
-                :key="country.ccn3"
-                :countryData="country"
-            />
-        </TransitionGroup>
+        <!-- <TransitionGroup class="CListContainer" name="fade" tag="div"> -->
+        <ContryCard
+            v-for="country in countriesData"
+            :key="country.ccn3"
+            :countryData="country"
+        />
+        <!-- </TransitionGroup> -->
     </div>
 </template>
 
