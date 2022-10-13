@@ -1,74 +1,72 @@
 <template>
-    <RouterLink to="/" class="backLink">
-        <img src="@/assets/arrow-back-outline.svg" alt="go back button" />
-        <button>Back</button>
-    </RouterLink>
-    <div class="country" :key="$route.params.code">
-        <img :src="flag" alt="flag of {{ name }}" />
-        <div class="countryDetails">
-            <h2>{{ name }}</h2>
-            <div class="CInfo">
-                <div class="mainCInfo">
-                    <p>
-                        Native Name:<span v-for="name in nativeName" :key="name"
-                            >&nbsp;{{ name.common }} .</span
-                        >
-                    </p>
-                    <!-- <p>
-                        Native Name:<span
-                        >&nbsp;{{
-                                countryData.name.nativeName[
-                                Object.keys(countryData.name.nativeName)[0]
-                                .official
-                                ]
-                            }}</span
-                        >
-                    </p> -->
-                    <p>
-                        Population:<span>&nbsp;{{ population }}</span>
-                    </p>
-                    <p>
-                        Region:<span>&nbsp;{{ region }}</span>
-                    </p>
-                    <p>
-                        Sub Region:<span>&nbsp;{{ subregion }}</span>
-                    </p>
-                    <p>
-                        Capital:<span v-for="capital in capitals" :key="capital"
-                            >&nbsp;{{ capital }} .</span
-                        >
-                    </p>
+    <div class="wl">
+        <RouterLink to="/" class="backLink">
+            <img src="@/assets/arrow-back-outline.svg" alt="go back button" />
+            <button>Back</button>
+        </RouterLink>
+        <div class="country" :key="$route.params.code">
+            <img :src="flag" alt="flag of {{ name }}" />
+            <div class="countryDetails">
+                <h2>{{ name }}</h2>
+                <div class="CInfo">
+                    <div class="mainCInfo">
+                        <p>
+                            Native Name:<span
+                                v-for="name in nativeName"
+                                :key="name"
+                                >&nbsp;{{ name.common }} .</span
+                            >
+                        </p>
+                        <p>
+                            Population:<span>&nbsp;{{ population }}</span>
+                        </p>
+                        <p>
+                            Region:<span>&nbsp;{{ region }}</span>
+                        </p>
+                        <p>
+                            Sub Region:<span>&nbsp;{{ subregion }}</span>
+                        </p>
+                        <p>
+                            Capital:<span
+                                v-for="capital in capitals"
+                                :key="capital"
+                                >&nbsp;{{ capital }} .</span
+                            >
+                        </p>
+                    </div>
+                    <div class="secondaryCInfo">
+                        <p>
+                            Top Level Domain:<span
+                                v-for="domains in tld"
+                                :key="domains"
+                                >&nbsp;{{ domains }}</span
+                            >
+                        </p>
+                        <p>
+                            Currencies:<span
+                                v-for="currency in currencies"
+                                :key="currency"
+                                >&nbsp;{{ currency.name }} .</span
+                            >
+                        </p>
+                        <p>
+                            Languages:<span
+                                v-for="lang in languages"
+                                :key="lang"
+                                >&nbsp;{{ lang }} .</span
+                            >
+                        </p>
+                    </div>
                 </div>
-                <div class="secondaryCInfo">
-                    <p>
-                        Top Level Domain:<span
-                            v-for="domains in tld"
-                            :key="domains"
-                            >&nbsp;{{ domains }}</span
-                        >
-                    </p>
-                    <p>
-                        Currencies:<span
-                            v-for="currency in currencies"
-                            :key="currency"
-                            >&nbsp;{{ currency.name }} .</span
-                        >
-                    </p>
-                    <p>
-                        Languages:<span v-for="lang in languages" :key="lang"
-                            >&nbsp;{{ lang }} .</span
-                        >
-                    </p>
+                <div class="borderCountries" v-if="borders">
+                    <p>Border Countries:</p>
+                    <RouterLink
+                        v-for="border in borders"
+                        :to="border"
+                        :key="border"
+                        >{{ borderCountryName(border) }}</RouterLink
+                    >
                 </div>
-            </div>
-            <div class="borderCountries" v-if="borders">
-                <p>Border Countries:</p>
-                <RouterLink
-                    v-for="border in borders"
-                    :to="border"
-                    :key="border"
-                    >{{ borderCountryName(border) }}</RouterLink
-                >
             </div>
         </div>
     </div>

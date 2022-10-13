@@ -8,11 +8,23 @@ const routes = [
         path: '/',
         name: 'home',
         component: HomeView,
+        meta: {
+            scrollPos: {
+                top: 0,
+                left: 0,
+            },
+        },
     },
     {
         path: '/:code',
         name: 'country',
         component: CountryView,
+        meta: {
+            scrollPos: {
+                top: 0,
+                left: 0,
+            },
+        },
     },
     {
         path: '/notfound',
@@ -24,6 +36,24 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (from.meta.scrollPos) {
+            from.meta.scrollPos.top = window.pageYOffset;
+        }
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                if (to.params.reset) {
+                    return resolve({ top: 0, left: 0 });
+                } else if (to.hash) {
+                    return resolve({ selector: to.hash });
+                } else if (savedPosition) {
+                    return resolve(savedPosition);
+                } else {
+                    return resolve({ top: to.meta.scrollPos.top });
+                }
+            }, 600);
+        });
+    },
 });
 
 export default router;

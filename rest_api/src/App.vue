@@ -5,9 +5,7 @@
             <Transition name="scale" mode="out-in">
                 <suspense>
                     <template #default>
-                        <div class="wl">
-                            <component :is="Component"></component>
-                        </div>
+                        <component :is="Component"></component>
                     </template>
                     <template #fallback>Loading..</template>
                 </suspense>
@@ -30,12 +28,12 @@ import NavigationBar from './components/NavigationBar.vue';
 // transition styling
 .scale-enter-active,
 .scale-leave-active {
-    transition: all 0.5s ease;
+    transition: all 0.2s ease;
 }
 
 .scale-enter-from,
 .scale-leave-to {
     opacity: 0;
-    // transform: scale(0.8);
+    transform: scale(0.8);
 }
 </style>

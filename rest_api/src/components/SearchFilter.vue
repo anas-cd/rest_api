@@ -47,6 +47,10 @@
                             View all
                         </button>
                     </li>
+                    <div
+                        class="dropdown-divider"
+                        v-if="filterInput !== 'Filter by region'"
+                    ></div>
                     <li>
                         <button
                             class="dropdown-item"
@@ -241,6 +245,9 @@ div.searchFilter {
                 &:hover {
                     background-color: var(--shadow);
                 }
+            }
+            .dropdown-divider {
+                border: 1px dashed gray;
             }
         }
     }
