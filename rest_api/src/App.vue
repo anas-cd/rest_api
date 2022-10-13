@@ -36,6 +36,6 @@ import NavigationBar from './components/NavigationBar.vue';
 .scale-enter-from,
 .scale-leave-to {
     opacity: 0;
-    transform: scale(0.8);
+    // transform: scale(0.8);
 }
 </style>
