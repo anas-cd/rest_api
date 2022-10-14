@@ -1,9 +1,11 @@
 <template>
-    <RouterLink to="/" class="backLink">
-        <img src="@/assets/arrow-back-outline.svg" alt="go back button" />
-        <button>Back to home</button>
-    </RouterLink>
-    <h1>woops, we only cover earth for now.</h1>
+    <div class="wl">
+        <RouterLink to="/" class="backLink">
+            <img src="@/assets/arrow-back-outline.svg" alt="go back button" />
+            <button>Back to home</button>
+        </RouterLink>
+        <h1>woops, we only cover earth for now.</h1>
+    </div>
 </template>
 
 <script setup></script>
