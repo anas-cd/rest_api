@@ -7,7 +7,9 @@
                     <template #default>
                         <component :is="Component"></component>
                     </template>
-                    <template #fallback>Loading..</template>
+                    <template #fallback>
+                        <SkeletonLoader></SkeletonLoader>
+                    </template>
                 </suspense>
             </Transition>
         </template>
@@ -16,6 +18,7 @@
 
 <script setup>
 import NavigationBar from './components/NavigationBar.vue';
+import SkeletonLoader from './components/SkeletonLoader.vue';
 </script>
 
 <style lang="scss">
