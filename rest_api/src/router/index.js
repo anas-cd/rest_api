@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import CountryView from '../views/CountryView.vue';
 import NotFound from '../views/NotFound.vue';
-
+import NProgress from 'nprogress';
 const routes = [
     {
         path: '/',
@@ -51,9 +51,15 @@ const router = createRouter({
                 } else {
                     return resolve({ top: to.meta.scrollPos.top });
                 }
-            }, 600);
+            }, 1200);
         });
     },
 });
 
+router.beforeEach(() => {
+    NProgress.start();
+});
+// router.afterEach(() => {
+//     NProgress.done();
+// });
 export default router;

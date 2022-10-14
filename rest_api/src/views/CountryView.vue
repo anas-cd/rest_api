@@ -73,10 +73,11 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onBeforeMount, ref, watchEffect } from 'vue';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import CountriesApi from '@/services/CountriesApi';
 import { useStore } from 'vuex';
+import NProgress from 'nprogress';
 
 const route = useRoute();
 const router = useRouter();
@@ -87,6 +88,28 @@ const countryData = ref(
         return null;
     })
 );
+
+onBeforeMount(async () => {
+    // NProgress.start();
+    countryData.value = await CountriesApi.getCountryByCode(route.params.code)
+        .catch(() => {
+            return null;
+        })
+        .finally(() => {
+            NProgress.done();
+        });
+});
+onBeforeRouteUpdate(async () => {
+    NProgress.start();
+    countryData.value = await CountriesApi.getCountryByCode(route.params.code)
+        .catch(() => {
+            return null;
+        })
+        .finally(() => {
+            NProgress.done();
+        });
+});
+
 const flag = ref('');
 const name = ref('');
 const nativeName = ref('');

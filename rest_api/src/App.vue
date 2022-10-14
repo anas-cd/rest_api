@@ -2,7 +2,7 @@
     <NavigationBar />
     <RouterView v-slot="{ Component }">
         <template v-if="Component">
-            <Transition name="scale" mode="out-in">
+            <Transition name="scale" mode="out-in" appear>
                 <suspense>
                     <template #default>
                         <component :is="Component"></component>
