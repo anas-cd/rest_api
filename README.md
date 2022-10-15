@@ -51,6 +51,7 @@ Users should be able to:
 - [nprogress](https://www.npmjs.com/package/nprogress) - Slim progress bars for Ajax'y applications.
 - [axios](https://axios-http.com/docs/intro) - Promise based HTTP client for the browser and node.js
 - [Vue.js](https://vuejs.org/) - Front-end framework
+- [Gsap](https://greensock.com/gsap/) - JavaScript animation tool
 - [Bootstrap](https://getbootstrap.com/) - Frontend toolkit
 
 ## Author
