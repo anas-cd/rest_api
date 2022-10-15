@@ -8,7 +8,10 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import NProgress from 'nprogress';
+NProgress.done();
+</script>
 
 <style scoped lang="scss">
 .backLink {
@@ -19,9 +22,9 @@
     margin: 3rem 0rem;
     padding: 0.5rem 1rem;
     box-shadow: 0px 0px 15px 0px var(--shadow);
+    border-radius: 0.5rem;
     background-color: var(--element-bg);
     text-decoration: none;
-    border-radius: 0.5rem;
     transition-duration: 0.2s;
 
     & > img {
@@ -32,10 +35,10 @@
     & > button {
         border: none;
         background-color: transparent;
+        color: var(--text-color);
         font-size: 1rem;
         font-weight: 600;
         letter-spacing: 1px;
-        color: var(--text-color);
         transition-duration: 0.2s;
 
         &:hover {

@@ -52,14 +52,12 @@
     </div>
 </template>
 
-<!-- <script setup></script> -->
-
 <style scoped lang="scss">
 .actionSection {
     width: 100%;
     height: 3.5rem;
-    border-radius: 0.3rem;
     margin-bottom: 3rem;
+    border-radius: 0.3rem;
     animation: pulse 1s infinite;
     animation-delay: 0.2s;
     background-repeat: no-repeat;
@@ -110,8 +108,10 @@
         & > .mainInfo {
             padding: 1rem;
             & > .name {
+                margin-bottom: 2rem;
                 width: 100%;
                 height: 40px;
+                border-radius: 0.3rem;
                 animation: pulse 1s infinite;
                 animation-delay: 0.9s;
                 background-repeat: no-repeat;
@@ -121,13 +121,12 @@
                     var(--shadow) 50%,
                     transparent 100%
                 );
-                margin-bottom: 2rem;
-                border-radius: 0.3rem;
             }
             & > .CInfo {
                 width: 100%;
                 height: 15px;
                 margin-bottom: 1rem;
+                border-radius: 0.3rem;
                 animation: pulse 1s infinite;
                 animation-delay: 0.4s;
                 background-repeat: no-repeat;
@@ -137,7 +136,6 @@
                     var(--shadow) 50%,
                     transparent 100%
                 );
-                border-radius: 0.3rem;
             }
         }
     }
@@ -154,14 +152,5 @@
     100% {
         background-position-x: 0px;
     }
-    // 0% {
-    //     background-color: var(--element-bg);
-    // }
-    // 50% {
-    //     background-color: var(--shadow);
-    // }
-    // 100% {
-    //     background-color: var(--element-bg);
-    // }
 }
 </style>

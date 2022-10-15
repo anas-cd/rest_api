@@ -30,6 +30,12 @@ const routes = [
         path: '/notfound',
         name: 'NotFound',
         component: NotFound,
+        meta: {
+            scrollPos: {
+                top: 0,
+                left: 0,
+            },
+        },
     },
 ];
 
@@ -59,7 +65,4 @@ const router = createRouter({
 router.beforeEach(() => {
     NProgress.start();
 });
-// router.afterEach(() => {
-//     NProgress.done();
-// });
 export default router;

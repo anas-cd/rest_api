@@ -46,17 +46,17 @@ const countryCode = ref(props.countryData.cca3);
 
 <style scoped lang="scss">
 a {
-    text-decoration: none;
     color: var(--text-color);
+    text-decoration: none;
     transition-duration: 0.2s;
 }
 .card {
     margin: 1rem 0rem;
     max-width: 16.5rem;
     width: 100%;
-    background-color: var(--element-bg);
     border-radius: 0.3rem;
     box-shadow: 0px 0px 15px 0px var(--shadow);
+    background-color: var(--element-bg);
     overflow: hidden;
     transition-duration: 0.2s;
 
@@ -65,8 +65,8 @@ a {
     }
 
     @media #{$mq-600-down} {
-        max-width: 100%;
         margin: 1rem 0rem;
+        max-width: 100%;
 
         img {
             width: 100% !important;

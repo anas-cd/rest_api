@@ -73,43 +73,29 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref, watchEffect } from 'vue';
-import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+import { ref, watchEffect } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import CountriesApi from '@/services/CountriesApi';
 import { useStore } from 'vuex';
 import NProgress from 'nprogress';
 
+// Vue consts
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+
 // data
+/* all data that goes to the template got a ref variable here just incase we needed to pre manipulate the data shown*/
 const countryData = ref(
-    await CountriesApi.getCountryByCode(route.params.code).catch(() => {
-        return null;
-    })
+    await CountriesApi.getCountryByCode(route.params.code)
+        .catch(() => {
+            router.push({
+                path: '/notfound',
+            });
+            return null;
+        })
+        .finally(() => NProgress.done())
 );
-
-onBeforeMount(async () => {
-    // NProgress.start();
-    countryData.value = await CountriesApi.getCountryByCode(route.params.code)
-        .catch(() => {
-            return null;
-        })
-        .finally(() => {
-            NProgress.done();
-        });
-});
-onBeforeRouteUpdate(async () => {
-    NProgress.start();
-    countryData.value = await CountriesApi.getCountryByCode(route.params.code)
-        .catch(() => {
-            return null;
-        })
-        .finally(() => {
-            NProgress.done();
-        });
-});
-
 const flag = ref('');
 const name = ref('');
 const nativeName = ref('');
@@ -122,25 +108,21 @@ const currencies = ref('');
 const languages = ref('');
 const borders = ref('');
 
-if (countryData.value === null) {
-    router.push({
-        path: '/notfound',
-    });
-} else {
-    flag.value = countryData.value[0].flags.png;
-    name.value = countryData.value[0].name.common;
-    nativeName.value = countryData.value[0].name.nativeName;
-    population.value = countryData.value[0].population.toLocaleString('en-US');
-    region.value = countryData.value[0].region;
-    subregion.value = countryData.value[0].subregion;
-    capitals.value = countryData.value[0].capital;
-    tld.value = countryData.value[0].tld;
-    currencies.value = countryData.value[0].currencies;
-    languages.value = countryData.value[0].languages;
-    borders.value = countryData.value[0].borders;
-}
+flag.value = countryData.value[0].flags.png;
+name.value = countryData.value[0].name.common;
+nativeName.value = countryData.value[0].name.nativeName;
+population.value = countryData.value[0].population.toLocaleString('en-US');
+region.value = countryData.value[0].region;
+subregion.value = countryData.value[0].subregion;
+capitals.value = countryData.value[0].capital;
+tld.value = countryData.value[0].tld;
+currencies.value = countryData.value[0].currencies;
+languages.value = countryData.value[0].languages;
+borders.value = countryData.value[0].borders;
 
+// selection of border countries
 watchEffect(async () => {
+    NProgress.start();
     // Why if undefined?, if route.params.code is undefined it means it was changed to go to HomeView, since the watch will detect the change in route.params asynchronously we have to account for this. (NOTE: this issue is only there when we add <Transition> tags in App.vue for some reason).
     if (route.params.code != undefined) {
         countryData.value = await CountriesApi.getCountryByCode(
@@ -159,8 +141,10 @@ watchEffect(async () => {
         languages.value = countryData.value[0].languages;
         borders.value = countryData.value[0].borders;
     }
+    NProgress.done();
 });
 
+// showing only unique names
 function getUnique() {
     let uniqueNames = new Set();
     for (let nameof in countryData.value[0].name.nativeName) {
@@ -169,6 +153,7 @@ function getUnique() {
     return uniqueNames;
 }
 
+// showing country name instead of code
 function borderCountryName(code) {
     let names = store.getters.getCountryName(code);
     if (names != undefined) {
@@ -183,16 +168,16 @@ function borderCountryName(code) {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    width: fit-content;
     margin: 3rem 0rem;
     padding: 0.5rem 1rem;
+    width: fit-content;
     box-shadow: 0px 0px 15px 0px var(--shadow);
-    background-color: var(--element-bg);
-    text-decoration: none;
     border-radius: 0.5rem;
-    transition-duration: 0.2s;
+    background-color: var(--element-bg);
     color: var(--text-color);
+    text-decoration: none;
     font-weight: 600;
+    transition-duration: 0.2s;
 
     & > img {
         width: 1.5rem;
@@ -203,10 +188,10 @@ function borderCountryName(code) {
     & > button {
         border: none;
         background-color: transparent;
+        color: var(--text-color);
         font-size: 1rem;
         font-weight: 600;
         letter-spacing: 1px;
-        color: var(--text-color);
         transition-duration: 0.2s;
 
         &:hover {
@@ -236,10 +221,10 @@ function borderCountryName(code) {
     }
 
     .countryDetails {
-        margin-left: 2rem;
         flex-basis: 40%;
-        max-width: 30rem;
         flex-grow: 1;
+        margin-left: 2rem;
+        max-width: 30rem;
 
         @media #{$mq-600-down} {
             margin-left: 0;
@@ -281,13 +266,13 @@ function borderCountryName(code) {
 
             & > a {
                 margin: 0.5rem;
+                padding: 0.2rem 1rem;
+                border-radius: 0.2rem;
+                box-shadow: 0px 0px 15px 0px var(--shadow);
+                background-color: var(--element-bg);
+                color: var(--text-color);
                 text-decoration: none;
                 font-weight: 400;
-                color: var(--text-color);
-                background-color: var(--element-bg);
-                box-shadow: 0px 0px 15px 0px var(--shadow);
-                border-radius: 0.2rem;
-                padding: 0.2rem 1rem;
                 transition-duration: 0.2s;
 
                 @media #{$mq-600-down} {

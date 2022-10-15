@@ -105,13 +105,16 @@
 <script setup>
 import { ref, defineEmits, defineProps, watch } from 'vue';
 
+// Vue consts
 const emit = defineEmits(['searchFor', 'regionOf']);
 const props = defineProps(['err']);
-// general data
-const errMsg = ref('');
 
-// # searching functionality
+// data
+const errMsg = ref('');
 const searchInput = ref('');
+const filterInput = ref('Filter by region');
+
+// # searching validation functionality
 function countrySearch(config) {
     // resetting filter by region
     filterInput.value = 'Filter by region';
@@ -125,7 +128,7 @@ function countrySearch(config) {
         }
     }
 }
-// - search error messages functionality
+// - search error messages displaying functionality
 function displayErr(err) {
     errMsg.value = err;
     setTimeout(() => {
@@ -133,7 +136,7 @@ function displayErr(err) {
     }, 5000);
     resetter();
 }
-// - search bar resetting functionality
+// - search resetting functionality
 function resetter() {
     searchInput.value = '';
     emit('searchFor', null);
@@ -147,8 +150,7 @@ watch(
     }
 );
 
-// # filtering functionlity
-const filterInput = ref('Filter by region');
+// # filtering validation functionlity
 function countryFilter(region) {
     // resetting search
     searchInput.value = '';
@@ -195,15 +197,15 @@ div.searchFilter {
             }
         }
         & > input {
+            margin-left: 0.5rem;
+            width: 100%;
+            padding: 1rem 0rem;
+            outline: none;
             border: none;
             background-color: transparent;
-            margin-left: 0.5rem;
-            padding: 1rem 0rem;
-            width: 100%;
+            color: var(--text-color);
             font-weight: 600;
             letter-spacing: 1px;
-            outline: none;
-            color: var(--text-color);
             transition-duration: 0.2s;
             &::placeholder {
                 font-weight: 600;
@@ -213,24 +215,24 @@ div.searchFilter {
             }
         }
         & > button {
+            padding: 0.5rem;
             border: none;
             background-color: var(--body-bg);
             border-radius: 0.3rem;
             color: var(--text-color);
-            padding: 0.5rem;
         }
     }
 
     // filter
     .dropdown-center {
         .dropdown-toggle {
-            background-color: var(--element-bg);
-            color: var(--text-color);
-            border: none;
-            box-shadow: 0px 0px 15px 0px var(--shadow);
-            font-weight: 600;
             width: 12.5rem;
             height: 100%;
+            border: none;
+            box-shadow: 0px 0px 15px 0px var(--shadow);
+            background-color: var(--element-bg);
+            color: var(--text-color);
+            font-weight: 600;
             transition-duration: 0.2s;
             &::after {
                 margin-left: 2rem;
@@ -260,8 +262,8 @@ div.searchFilter {
 
     // error message element
     & > .errMsg {
-        color: lightcoral;
         position: absolute;
+        color: lightcoral;
         transform: translateY(-30px);
     }
 }

@@ -33,12 +33,14 @@ import { ref } from 'vue';
 import { useStore } from 'vuex';
 import gsap from 'gsap';
 import NProgress from 'nprogress';
-
+// Vue consts
 const store = useStore();
+
 // data
 const countriesData = ref(await CountriesApi.getAll());
 const searchErr = ref('');
 store.dispatch('setCountryCodes', countriesData.value);
+
 // searching functionality
 async function countrySearch(country) {
     NProgress.start();
@@ -69,7 +71,7 @@ async function regionFilter(region) {
     } else countriesData.value = await CountriesApi.getAll();
 }
 
-// list animations
+// list animations using Vue hooks
 function onBeforeEnter(el) {
     el.style.opacity = 0;
     el.style.transform = 'translateY(100px)';

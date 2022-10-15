@@ -21,20 +21,20 @@ export default {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    background-color: var(--element-bg);
-    box-shadow: 1px 0px 7px 1px var(--shadow);
     margin-bottom: 3rem;
+    box-shadow: 1px 0px 7px 1px var(--shadow);
+    background-color: var(--element-bg);
     transition-duration: 0.2s;
 
     button {
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
+        border: none;
+        background-color: transparent;
+        color: var(--text-color);
         font-size: 1rem;
         font-weight: 600;
-        background-color: transparent;
-        border: none;
-        color: var(--text-color);
         transition-duration: 0.2s;
 
         &:hover {
