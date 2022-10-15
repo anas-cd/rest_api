@@ -92,7 +92,7 @@ const countryData = ref(
             router.push({
                 path: '/notfound',
             });
-            return null;
+            return '';
         })
         .finally(() => NProgress.done())
 );
