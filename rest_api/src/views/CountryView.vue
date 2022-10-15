@@ -205,7 +205,6 @@ function borderCountryName(code) {
     display: flex;
     flex-flow: row wrap;
     margin-bottom: 2rem;
-    height: 400px;
     justify-content: space-between;
 
     @media #{$mq-600-down} {
