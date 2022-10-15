@@ -208,6 +208,9 @@ div.searchFilter {
             &::placeholder {
                 font-weight: 600;
             }
+            &:focus {
+                border: 1px solid lightblue;
+            }
         }
         & > button {
             border: none;
@@ -231,6 +234,9 @@ div.searchFilter {
             transition-duration: 0.2s;
             &::after {
                 margin-left: 2rem;
+            }
+            &:focus {
+                border: 1px solid lightblue;
             }
         }
         .dropdown-menu {

@@ -2,7 +2,7 @@
     <div class="wl">
         <RouterLink to="/" class="backLink">
             <img src="@/assets/arrow-back-outline.svg" alt="go back button" />
-            <button>Back</button>
+            Back
         </RouterLink>
         <div class="country" :key="$route.params.code">
             <img :src="flag" alt="flag of {{ name }}" />
@@ -14,7 +14,7 @@
                             Native Name:<span
                                 v-for="name in nativeName"
                                 :key="name"
-                                >&nbsp;{{ name.common }} .</span
+                                >&nbsp;{{ name }} .</span
                             >
                         </p>
                         <p>
@@ -148,7 +148,7 @@ watchEffect(async () => {
         );
         flag.value = countryData.value[0].flags.png;
         name.value = countryData.value[0].name.common;
-        nativeName.value = countryData.value[0].name.nativeName;
+        nativeName.value = getUnique();
         population.value =
             countryData.value[0].population.toLocaleString('en-US');
         region.value = countryData.value[0].region;
@@ -160,6 +160,14 @@ watchEffect(async () => {
         borders.value = countryData.value[0].borders;
     }
 });
+
+function getUnique() {
+    let uniqueNames = new Set();
+    for (let nameof in countryData.value[0].name.nativeName) {
+        uniqueNames.add(countryData.value[0].name.nativeName[nameof].common);
+    }
+    return uniqueNames;
+}
 
 function borderCountryName(code) {
     let names = store.getters.getCountryName(code);
@@ -183,9 +191,12 @@ function borderCountryName(code) {
     text-decoration: none;
     border-radius: 0.5rem;
     transition-duration: 0.2s;
+    color: var(--text-color);
+    font-weight: 600;
 
     & > img {
         width: 1.5rem;
+        margin-right: 0.2rem;
         filter: var(--icon-color);
     }
 
