@@ -4,7 +4,7 @@
             <img src="@/assets/arrow-back-outline.svg" alt="go back button" />
             Back
         </RouterLink>
-        <div class="country" :key="$route.params.code">
+        <div class="country" v-if="countryData != null">
             <img :src="flag" alt="flag of {{ name }}" />
             <div class="countryDetails">
                 <h2>{{ name }}</h2>
@@ -86,16 +86,7 @@ const store = useStore();
 
 // data
 /* all data that goes to the template got a ref variable here just incase we needed to pre manipulate the data shown*/
-const countryData = ref(
-    await CountriesApi.getCountryByCode(route.params.code)
-        .catch(() => {
-            router.push({
-                name: 'NotFound',
-            });
-            return null;
-        })
-        .finally(() => NProgress.done())
-);
+const countryData = ref(null);
 const flag = ref('');
 const name = ref('');
 const nativeName = ref('');
@@ -107,20 +98,6 @@ const tld = ref('');
 const currencies = ref('');
 const languages = ref('');
 const borders = ref('');
-
-if (countryData.value != null) {
-    flag.value = countryData.value[0].flags.png;
-    name.value = countryData.value[0].name.common;
-    nativeName.value = countryData.value[0].name.nativeName;
-    population.value = countryData.value[0].population.toLocaleString('en-US');
-    region.value = countryData.value[0].region;
-    subregion.value = countryData.value[0].subregion;
-    capitals.value = countryData.value[0].capital;
-    tld.value = countryData.value[0].tld;
-    currencies.value = countryData.value[0].currencies;
-    languages.value = countryData.value[0].languages;
-    borders.value = countryData.value[0].borders;
-}
 
 // selection of border countries
 watchEffect(async () => {
