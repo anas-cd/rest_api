@@ -90,9 +90,9 @@ const countryData = ref(
     await CountriesApi.getCountryByCode(route.params.code)
         .catch(() => {
             router.push({
-                path: '/notfound',
+                name: 'NotFound',
             });
-            return '';
+            return null;
         })
         .finally(() => NProgress.done())
 );
@@ -108,17 +108,19 @@ const currencies = ref('');
 const languages = ref('');
 const borders = ref('');
 
-flag.value = countryData.value[0].flags.png;
-name.value = countryData.value[0].name.common;
-nativeName.value = countryData.value[0].name.nativeName;
-population.value = countryData.value[0].population.toLocaleString('en-US');
-region.value = countryData.value[0].region;
-subregion.value = countryData.value[0].subregion;
-capitals.value = countryData.value[0].capital;
-tld.value = countryData.value[0].tld;
-currencies.value = countryData.value[0].currencies;
-languages.value = countryData.value[0].languages;
-borders.value = countryData.value[0].borders;
+if (countryData.value != null) {
+    flag.value = countryData.value[0].flags.png;
+    name.value = countryData.value[0].name.common;
+    nativeName.value = countryData.value[0].name.nativeName;
+    population.value = countryData.value[0].population.toLocaleString('en-US');
+    region.value = countryData.value[0].region;
+    subregion.value = countryData.value[0].subregion;
+    capitals.value = countryData.value[0].capital;
+    tld.value = countryData.value[0].tld;
+    currencies.value = countryData.value[0].currencies;
+    languages.value = countryData.value[0].languages;
+    borders.value = countryData.value[0].borders;
+}
 
 // selection of border countries
 watchEffect(async () => {
@@ -127,19 +129,26 @@ watchEffect(async () => {
     if (route.params.code != undefined) {
         countryData.value = await CountriesApi.getCountryByCode(
             route.params.code
-        );
-        flag.value = countryData.value[0].flags.png;
-        name.value = countryData.value[0].name.common;
-        nativeName.value = getUnique();
-        population.value =
-            countryData.value[0].population.toLocaleString('en-US');
-        region.value = countryData.value[0].region;
-        subregion.value = countryData.value[0].subregion;
-        capitals.value = countryData.value[0].capital;
-        tld.value = countryData.value[0].tld;
-        currencies.value = countryData.value[0].currencies;
-        languages.value = countryData.value[0].languages;
-        borders.value = countryData.value[0].borders;
+        ).catch(() => {
+            router.push({
+                name: 'NotFound',
+            });
+            return null;
+        });
+        if (countryData.value != null) {
+            flag.value = countryData.value[0].flags.png;
+            name.value = countryData.value[0].name.common;
+            nativeName.value = getUnique();
+            population.value =
+                countryData.value[0].population.toLocaleString('en-US');
+            region.value = countryData.value[0].region;
+            subregion.value = countryData.value[0].subregion;
+            capitals.value = countryData.value[0].capital;
+            tld.value = countryData.value[0].tld;
+            currencies.value = countryData.value[0].currencies;
+            languages.value = countryData.value[0].languages;
+            borders.value = countryData.value[0].borders;
+        }
     }
     NProgress.done();
 });
